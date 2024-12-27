@@ -4,6 +4,7 @@ import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import Monitoring from './pages/Monitoring';
 import Weather from './pages/Weather';
+import CropDataDisplay from './pages/CropDataDisplay'; // Highlighting the correct feature
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="monitoring" element={<Monitoring />} />
           <Route path="weather" element={<Weather />} />
+          <Route path="crop-data-display" element={<CropDataDisplay />} /> {/* Highlighted route */}
         </Route>
       </Routes>
     </BrowserRouter>

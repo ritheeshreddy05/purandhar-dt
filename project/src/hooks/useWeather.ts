@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { WeatherData, LocationData } from '../types';
+import { WeatherData } from '../types';
 import { generateMockWeather } from '../utils/mockWeather';
 
-export const useWeather = (location: LocationData) => {
+export const useWeather = () => {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -10,7 +10,7 @@ export const useWeather = (location: LocationData) => {
   useEffect(() => {
     const updateWeather = () => {
       try {
-        const mockWeather = generateMockWeather();
+        const mockWeather = generateMockWeather(); // Using mock data
         setWeather(mockWeather);
         setError(null);
       } catch (err) {
@@ -24,7 +24,7 @@ export const useWeather = (location: LocationData) => {
     const interval = setInterval(updateWeather, 5000); // Update every 5 seconds for demo
 
     return () => clearInterval(interval);
-  }, [location]);
+  }, []);
 
   return { weather, loading, error };
 };
