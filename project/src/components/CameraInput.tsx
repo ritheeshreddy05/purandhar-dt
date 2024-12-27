@@ -4,7 +4,6 @@ const CameraInput: React.FC<{ onCapture: (image: string, cropDetails: { quality:
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [cropDetails, setCropDetails] = useState<{ quality: string; diseases: string[]; additionalInfo: string } | null>(null);
-  const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [selectedCrop, setSelectedCrop] = useState<string | null>(null);
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [isFrontCamera, setIsFrontCamera] = useState(false);
@@ -30,7 +29,6 @@ const CameraInput: React.FC<{ onCapture: (image: string, cropDetails: { quality:
       // Simulating crop details based on selected crop
       const simulatedCropDetails = getCropDetails(selectedCrop);
       setCropDetails(simulatedCropDetails);
-      setCapturedImage(image);
       onCapture(image, simulatedCropDetails);
     }
   };
@@ -114,22 +112,17 @@ const CameraInput: React.FC<{ onCapture: (image: string, cropDetails: { quality:
           </div>
         </>
       )}
-      {capturedImage && (
+      {cropDetails && (
         <div className="mt-4">
-          <img src={capturedImage} alt="Captured Crop" className="border-2 border-gray-300 rounded-lg mb-2" />
-          {cropDetails && (
-            <div className="bg-white p-4 rounded-lg shadow-md">
-              <h3 className="text-lg font-bold">Crop Quality: {cropDetails.quality}</h3>
-              <h4 className="text-md font-semibold">Affected Diseases:</h4>
-              <ul className="list-disc list-inside">
-                {cropDetails.diseases.map((disease, index) => (
-                  <li key={index}>{disease}</li>
-                ))}
-              </ul>
-              <h4 className="text-md font-semibold mt-2">Additional Information:</h4>
-              <p>{cropDetails.additionalInfo}</p>
-            </div>
-          )}
+          <h3 className="text-lg font-bold">Crop Quality: {cropDetails.quality}</h3>
+          <h4 className="text-md font-semibold">Affected Diseases:</h4>
+          <ul className="list-disc list-inside">
+            {cropDetails.diseases.map((disease, index) => (
+              <li key={index}>{disease}</li>
+            ))}
+          </ul>
+          <h4 className="text-md font-semibold mt-2">Additional Information:</h4>
+          <p>{cropDetails.additionalInfo}</p>
         </div>
       )}
     </div>
