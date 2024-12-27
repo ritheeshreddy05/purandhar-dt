@@ -7,9 +7,13 @@ const CameraInput: React.FC<{ onCapture: (image: string, cropDetails: { quality:
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
   const [selectedCrop, setSelectedCrop] = useState<string | null>(null);
   const [isCameraActive, setIsCameraActive] = useState(false);
+  const [isFrontCamera, setIsFrontCamera] = useState(false);
 
   const startCamera = async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    const constraints = {
+      video: { facingMode: isFrontCamera ? 'user' : 'environment' }
+    };
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
     if (videoRef.current) {
       videoRef.current.srcObject = stream;
     }
@@ -97,6 +101,17 @@ const CameraInput: React.FC<{ onCapture: (image: string, cropDetails: { quality:
             Capture
           </button>
           <canvas ref={canvasRef} style={{ display: 'none' }} />
+          <div className="mt-2">
+            <label className="inline-flex items-center">
+              <input 
+                type="checkbox" 
+                checked={isFrontCamera} 
+                onChange={() => setIsFrontCamera(!isFrontCamera)} 
+                className="form-checkbox h-5 w-5 text-green-600"
+              />
+              <span className="ml-2 text-gray-700">Use Front Camera</span>
+            </label>
+          </div>
         </>
       )}
       {capturedImage && (
